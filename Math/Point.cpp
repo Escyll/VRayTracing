@@ -10,7 +10,7 @@ Point::Point()
 {   
 }
 
-Point::Point(double x, double y, double z)
+Point::Point(float x, float y, float z)
     : m_x(x)
     , m_y(y)
     , m_z(z)
@@ -32,17 +32,17 @@ Vector operator-(const Point& lhs, const Point& rhs)
     return Vector(lhs.m_x - rhs.m_x, lhs.m_y - rhs.m_y, lhs.m_z - rhs.m_z);
 }
 
-double Point::getX() const
+float Point::getX() const
 {
     return m_x;
 }
 
-double Point::getY() const
+float Point::getY() const
 {
     return m_y;
 }
 
-double Point::getZ() const
+float Point::getZ() const
 {
     return m_z;
 }

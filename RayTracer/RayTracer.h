@@ -1,6 +1,7 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
+#include <Box.h>
 #include <memory>
 
 #include "RayCollider.h"
@@ -20,6 +21,7 @@ private:
     int m_height;
     Camera m_camera;
     Triangle m_triangle;
+    Box m_box;
     RayCollider m_rayCollider;
 };
 

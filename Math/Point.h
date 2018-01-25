@@ -8,21 +8,21 @@ class Point
 {
 public:
     Point();
-    Point(double x, double y, double z);
+    Point(float x, float y, float z);
 
     Point operator+(const Vector& rhs);
     Vector operator-(const Point& rhs);
     friend Vector operator-(const Point& lhs, const Point& rhs);
 
     friend class Vector;
-    double getX() const;
-    double getY() const;
-    double getZ() const;
+    float getX() const;
+    float getY() const;
+    float getZ() const;
 
 private:
-    double m_x;
-    double m_y;
-    double m_z;
+    float m_x;
+    float m_y;
+    float m_z;
 };
 
 } // KGVR

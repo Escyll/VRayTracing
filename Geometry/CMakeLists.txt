@@ -5,10 +5,12 @@ include_directories(
     )
 
 set(HEADERS
+    Box.h
     Triangle.h
     )
 
 set(SOURCES
+    Box.cpp
     Triangle.cpp
     )
 

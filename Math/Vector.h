@@ -8,36 +8,36 @@ class Vector
 {
 public:
     Vector();
-    Vector(double x, double y, double z);
+    Vector(float x, float y, float z);
     Vector& operator=(const Point& rhs);
     Vector operator+(const Vector& rhs) const;
     Vector operator-(const Vector& rhs) const;
     Vector operator-() const;
-    Vector operator*(double rhs) const;
-    double dot(const Vector& rhs) const;
+    Vector operator*(float rhs) const;
+    float dot(const Vector& rhs) const;
     Vector cross(const Vector& rhs) const;
     static Vector cross(const Vector &a, const Vector &b);
 
-    Vector& operator*=(double rhs);
-    friend Vector operator*(double lhs, const Vector& rhs);
-    Vector operator/(double rhs) const;
-    Vector& operator/=(double rhs);
+    Vector& operator*=(float rhs);
+    friend Vector operator*(float lhs, const Vector& rhs);
+    Vector operator/(float rhs) const;
+    Vector& operator/=(float rhs);
 
     void normalize();
     static Vector normalize(const Vector&);
 
-    double length() const;
-    double lengthSquared() const;
+    float length() const;
+    float lengthSquared() const;
 
     friend class Point;
-    double getX() const;
-    double getY() const;
-    double getZ() const;
+    float getX() const;
+    float getY() const;
+    float getZ() const;
 
 private:
-    double m_x;
-    double m_y;
-    double m_z;
+    float m_x;
+    float m_y;
+    float m_z;
 };
 
 } // KGVR
