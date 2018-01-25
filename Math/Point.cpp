@@ -27,6 +27,11 @@ Vector Point::operator-(const Point& rhs)
     return Vector(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z);
 }
 
+Vector operator-(const Point& lhs, const Point& rhs)
+{
+    return Vector(lhs.m_x - rhs.m_x, lhs.m_y - rhs.m_y, lhs.m_z - rhs.m_z);
+}
+
 double Point::getX() const
 {
     return m_x;

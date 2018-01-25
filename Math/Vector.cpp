@@ -32,6 +32,13 @@ void Vector::normalize()
     this->operator/=(length());
 }
 
+Vector Vector::normalize(const Vector& v)
+{
+    Vector result = v;
+    result.normalize();
+    return result;
+}
+
 Vector Vector::operator+(const Vector& rhs) const
 {
     return Vector(m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z);
@@ -40,6 +47,11 @@ Vector Vector::operator+(const Vector& rhs) const
 Vector Vector::operator-(const Vector& rhs) const
 {
     return Vector(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z);
+}
+
+Vector Vector::operator-() const
+{
+    return Vector(-m_x, -m_y, -m_z);
 }
 
 Vector Vector::operator*(double rhs) const
@@ -55,6 +67,11 @@ double Vector::dot(const Vector& rhs) const
 Vector Vector::cross(const Vector& rhs) const
 {
     return Vector(m_y*rhs.m_z - rhs.m_y*m_z, m_z*rhs.m_x - rhs.m_z*m_x, m_x*rhs.m_y - rhs.m_x*m_y);
+}
+
+Vector Vector::cross(const Vector& a, const Vector& b)
+{
+    return a.cross(b);
 }
 
 Vector& Vector::operator*=(double rhs)

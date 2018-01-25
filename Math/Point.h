@@ -12,6 +12,7 @@ public:
 
     Point operator+(const Vector& rhs);
     Vector operator-(const Point& rhs);
+    friend Vector operator-(const Point& lhs, const Point& rhs);
 
     friend class Vector;
     double getX() const;

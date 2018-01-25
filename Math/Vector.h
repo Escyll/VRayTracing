@@ -12,15 +12,19 @@ public:
     Vector& operator=(const Point& rhs);
     Vector operator+(const Vector& rhs) const;
     Vector operator-(const Vector& rhs) const;
+    Vector operator-() const;
     Vector operator*(double rhs) const;
     double dot(const Vector& rhs) const;
     Vector cross(const Vector& rhs) const;
+    static Vector cross(const Vector &a, const Vector &b);
+
     Vector& operator*=(double rhs);
     friend Vector operator*(double lhs, const Vector& rhs);
     Vector operator/(double rhs) const;
     Vector& operator/=(double rhs);
 
     void normalize();
+    static Vector normalize(const Vector&);
 
     double length() const;
     double lengthSquared() const;

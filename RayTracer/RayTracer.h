@@ -1,9 +1,9 @@
 #ifndef RAYTRACER_H
 #define RAYTRACER_H
 
-#include <RayCollider.h>
 #include <memory>
 
+#include "RayCollider.h"
 #include "Camera.h"
 #include "Triangle.h"
 

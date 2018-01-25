@@ -14,8 +14,9 @@ Ray Camera::getRay(int x, int y)
 {
     auto left = m_topLeft.getX() + 4.0*(static_cast<double>(x) / m_width);
     auto top = m_topLeft.getY() - 4.0*(static_cast<double>(m_height - y) / m_height);
-    Point origin(left, top, 0);
-    return Ray(origin, m_direction);
+    Point pixelCoord(left, top, 0);
+    Point origin(0, 0, -4);
+    return Ray(origin, pixelCoord - origin);
 }
 
 void Camera::moveCamera(const Vector& delta)

@@ -1,7 +1,4 @@
 #include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <random>
 
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -15,27 +12,20 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
     , m_height(height)
     , m_window(nullptr)
 {
-}
-
-int GLWindowRenderer::init()
-{
-    std::cout << "Starting app." << std::endl;
-
-    /* Initialize the library */
+    std::cout << "Initializing OpenGL stuff and window." << std::endl;
     if (!glfwInit())
-        return -1;
+        throw std::exception("glfwInit failed, aborting.");
 
     /* Create a windowed mode window and its OpenGL context */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    m_window = glfwCreateWindow(m_width, m_height, "Hello World", NULL, NULL);
+    m_window = glfwCreateWindow(m_width, m_height, "VRayTracing", NULL, NULL);
     if (!m_window)
     {
-        std::cout << "Could not create window. Probably too old OpenGL version." << std::endl;
         glfwTerminate();
-        return -1;
+        throw std::exception("Could not create window. Probably too old OpenGL version.");
     }
 
     /* Make the window's context current */
@@ -44,19 +34,12 @@ int GLWindowRenderer::init()
     glewExperimental=GL_TRUE;
     GLenum err=glewInit();
     if(err!=GLEW_OK)
-    {
-        //Problem: glewInit failed, something is seriously wrong.
-        std::cout<<"glewInit failed, aborting."<<std::endl;
-    }
-    std::cout<<"glewInit gelukt"<<std::endl;
+        throw std::exception("glewInit failed, aborting.");
     const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
     const GLubyte* version = glGetString(GL_VERSION); // version as a string
-    printf("Renderer: %s\n", renderer);
-    printf("OpenGL version supported %s\n", version);
+    std::cout << "Renderer: " << renderer << std::endl;
+    std::cout << "OpenGL version supported: " << version << std::endl;
 
-    // tell GL to only draw onto a pixel if the shape is closer to the viewer
-    //glEnable(GL_DEPTH_TEST); // enable depth-testing
-    //glDepthFunc(GL_LESS); // depth-testing interprets a smaller value as "closer"
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -143,35 +126,26 @@ int GLWindowRenderer::init()
 
     glUseProgram(m_shaderProgram);
     glActiveTexture(GL_TEXTURE0);
-    return 0;
 }
 
 void GLWindowRenderer::render(float* pixels)
 {
-    /* Poll for and process events */
     glfwPollEvents();
-
-    /* Render here */
     glClearColor(1,0,0,1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    //glUseProgram(m_shaderProgram);
     glTexImage2D(GL_TEXTURE_2D,
                  0,
-                 GL_RGB,
+                 GL_RGBA8,
                  m_width,
                  m_height,
                  0,
-                 GL_RGB,
+                 GL_BGRA,
                  GL_FLOAT,
                  pixels);
-
     glUniform1f(glGetUniformLocation(m_shaderProgram, "tex"), 0);
 
-    // draw points 0-3 from the currently bound VAO with current in-use shader
     glDrawArrays(GL_TRIANGLES, 0, 6);
-
-    /* Swap front and back buffers */
     glfwSwapBuffers(m_window);
 }
 

@@ -1,15 +1,16 @@
-#include <RayTracer.h>
-#include <random>
+#include <iostream>
+#include <algorithm>
 
+#include "RayTracer.h"
 #include "GLWindowRenderer.h"
 
 int main(void)
 {
     int dim = 768;
     KGVR::GLWindowRenderer glWindowRenderer(dim, dim);
-    if (glWindowRenderer.init() != 0)
-        return -1;
-    float* pixelData = new float[dim*dim*3];
+
+    float* pixelData = new float[dim*dim*4];
+    std::fill_n(pixelData, dim*dim*4, 1.f);
     KGVR::RayTracer tracer(dim, dim);
 
     /* Loop until the user closes the window */

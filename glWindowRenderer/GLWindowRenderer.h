@@ -10,7 +10,6 @@ class GLWindowRenderer
 
 public:
     GLWindowRenderer(int width, int height);
-    int init();
     bool shouldClose();
     void terminate();
     void render(float* pixels);
