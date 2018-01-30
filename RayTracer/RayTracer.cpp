@@ -1,6 +1,9 @@
+#include <Diffuse.h>
+#include <TriangleCollidable.h>
 #include <algorithm>
 
 #include "RayTracer.h"
+#include "BoxCollidable.h"
 
 namespace KGVR {
 
@@ -9,8 +12,11 @@ RayTracer::RayTracer(int width, int height)
     , m_height(height)
     , m_camera(m_width, m_height)
     , m_triangle(Point(1,-1, 2), Point(-1,-1, 2), Point(0,1, 80))
-    , m_box(Point(1, -3.5, 2), Point(3, -1.5, 4))
 {
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(1, -3.5, 2), Point(3, -1.5, 4), std::make_unique<Diffuse>(Color { 1.f, 0.f, 0.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-3, -3.5, 2), Point(-1, -1.5, 4), std::make_unique<Diffuse>(Color { 0.f, 1.f, 0.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-1, 1.5, 2), Point(1, 3.5, 4), std::make_unique<Diffuse>(Color { 0.f, 0.f, 1.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<TriangleCollidable>(Point(-2, -2.5, 3), Point(0, 2.5, 3), Point(2, -2.5, 3), std::make_unique<Diffuse>(Color { .3f, 0.f, .3f, 0.f}) ));
 }
 
 void RayTracer::render(float* pixels)
@@ -21,22 +27,27 @@ void RayTracer::render(float* pixels)
         for (int x = 0; x < m_width; x++)
         {
             auto ray = m_camera.getRay(x, y);
-            Vector hitpoint;
             auto totalOffset = offsetHeight + 4*x;
-            if (m_rayCollider.hits(ray, m_box, hitpoint))
+            Collidable* closest = nullptr;
+            float closestT = INFINITY;
+            float currentT;
+            for (auto& object : m_objects)
             {
-                auto normal = m_box.getNormal(hitpoint);
-                auto shade = std::max(0.f, normal.dot(-ray.getDirection()));
-                pixels[totalOffset] = shade*1.f;
-                pixels[totalOffset + 1] = 0.f;
-                pixels[totalOffset + 2] = 0.f;
+                if (object->hits(ray, currentT) && currentT < closestT)
+                {
+                    closest = object.get();
+                    closestT = currentT;
+                }
             }
-            else if (m_rayCollider.hits(ray, m_triangle, hitpoint))
+            if (closest)
             {
-                auto shade = std::max(0.f, m_triangle.getNormal().dot(-ray.getDirection()));
-                pixels[totalOffset] = 0.f;
-                pixels[totalOffset + 1] = 0.f;
-                pixels[totalOffset + 2] = shade*1.f;
+                auto hitpoint = ray.getOrigin() + ray.getDirection() * closestT;
+                auto normal = closest->getNormal(hitpoint);
+                auto shade = std::max(0.f, normal.dot(-ray.getDirection()));
+                auto color = closest->getMaterial()->getColor();
+                pixels[totalOffset] = shade*color.blue;
+                pixels[totalOffset + 1] = shade*color.green;
+                pixels[totalOffset + 2] = shade*color.red;
             }
             else
             {

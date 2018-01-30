@@ -4,6 +4,7 @@ include_directories(
     ${CollisionDetection_SOURCE_DIR}
     ${Geometry_SOURCE_DIR}
     ${Math_SOURCE_DIR}
+    ${Materials_SOURCE_DIR}
     )
 
 set(HEADERS

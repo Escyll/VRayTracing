@@ -26,7 +26,7 @@ bool closeEnough(float x1, float x2)
     return std::abs(x1 - x2) < 0.000001;
 }
 
-Vector Box::getNormal(const Vector& p)
+Vector Box::getNormal(const Point& p) const
 {
     if (closeEnough(p.getX(), m_start.getX()))
         return Vector(-1, 0, 0);

@@ -13,7 +13,7 @@ public:
     Box(const Point& start, const Point& end);
     Point getStart() const;
     Point getEnd() const;
-    Vector getNormal(const Vector&);
+    Vector getNormal(const Point&) const;
 
 private:
     Point m_start;

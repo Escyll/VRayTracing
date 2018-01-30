@@ -3,10 +3,12 @@
 
 #include <Box.h>
 #include <memory>
+#include <vector>
 
 #include "RayCollider.h"
 #include "Camera.h"
 #include "Triangle.h"
+#include "Collidable.h"
 
 namespace KGVR {
 
@@ -21,8 +23,8 @@ private:
     int m_height;
     Camera m_camera;
     Triangle m_triangle;
-    Box m_box;
     RayCollider m_rayCollider;
+    std::vector<std::unique_ptr<Collidable>> m_objects;
 };
 
 } // KGVR

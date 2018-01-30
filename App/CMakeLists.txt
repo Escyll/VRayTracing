@@ -6,6 +6,7 @@ include_directories(
     ${CollisionDetection_SOURCE_DIR}
     ${Geometry_SOURCE_DIR}
     ${GlWindowRenderer_SOURCE_DIR}
+    ${Materials_SOURCE_DIR}
     ${LIBRARIES}/GLFW/include
     ${LIBRARIES}/GLEW/include
     )
@@ -27,6 +28,7 @@ target_link_libraries(${PROJECT_NAME}
     GlWindowRenderer
     Math
     RayTracer
+    Materials
     glfw3.lib
     glew32s.lib
     opengl32.lib
