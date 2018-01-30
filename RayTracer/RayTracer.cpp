@@ -11,7 +11,6 @@ RayTracer::RayTracer(int width, int height)
     : m_width(width)
     , m_height(height)
     , m_camera(m_width, m_height)
-    , m_triangle(Point(1,-1, 2), Point(-1,-1, 2), Point(0,1, 80))
 {
     m_objects.push_back(std::make_unique<BoxCollidable>(Point(1, -3.5, 2), Point(3, -1.5, 4), std::make_unique<Diffuse>(Color { 1.f, 0.f, 0.f, 0.f}) ));
     m_objects.push_back(std::make_unique<BoxCollidable>(Point(-3, -3.5, 2), Point(-1, -1.5, 4), std::make_unique<Diffuse>(Color { 0.f, 1.f, 0.f, 0.f}) ));

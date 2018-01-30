@@ -9,13 +9,11 @@ include_directories(
 set(HEADERS
     BoxCollidable.h
     Collidable.h
-    RayCollider.h
     TriangleCollidable.h
     )
 
 set(SOURCES
     BoxCollidable.cpp
-    RayCollider.cpp
     TriangleCollidable.cpp
     )
 

@@ -5,7 +5,6 @@
 #include <memory>
 #include <vector>
 
-#include "RayCollider.h"
 #include "Camera.h"
 #include "Triangle.h"
 #include "Collidable.h"
@@ -22,8 +21,6 @@ private:
     int m_width;
     int m_height;
     Camera m_camera;
-    Triangle m_triangle;
-    RayCollider m_rayCollider;
     std::vector<std::unique_ptr<Collidable>> m_objects;
 };
 
