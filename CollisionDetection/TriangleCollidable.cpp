@@ -10,7 +10,7 @@ TriangleCollidable::TriangleCollidable(const Point& v0, const Point& v1, const P
 
 bool TriangleCollidable::hits(const Ray& ray, float& tresult) const
 {
-    const double EPSILON = 0.0000001;
+    const float EPSILON = 0.0000001f;
     Point v0 = m_triangle.getV0();
     Point v1 = m_triangle.getV1();
     Point v2 = m_triangle.getV2();
@@ -19,7 +19,7 @@ bool TriangleCollidable::hits(const Ray& ray, float& tresult) const
     Vector h;
     Vector s;
     Vector q;
-    double a,f,u,v;
+    float a,f,u,v;
     edge1 = v1 - v0;
     edge2 = v2 - v0;
     h = ray.getDirection().cross(edge2);

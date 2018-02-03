@@ -4,6 +4,7 @@
 namespace KGVR {
 
 class Point;
+class Quaternion;
 class Vector
 {
 public:
@@ -28,6 +29,8 @@ public:
 
     float length() const;
     float lengthSquared() const;
+
+    Vector rotate(const Quaternion& q) const;
 
     friend class Point;
     float getX() const;

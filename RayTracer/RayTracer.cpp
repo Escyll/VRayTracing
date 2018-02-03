@@ -12,10 +12,10 @@ RayTracer::RayTracer(int width, int height)
     , m_height(height)
     , m_camera(m_width, m_height)
 {
-    m_objects.push_back(std::make_unique<BoxCollidable>(Point(1, -3.5, 2), Point(3, -1.5, 4), std::make_unique<Diffuse>(Color { 1.f, 0.f, 0.f, 0.f}) ));
-    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-3, -3.5, 2), Point(-1, -1.5, 4), std::make_unique<Diffuse>(Color { 0.f, 1.f, 0.f, 0.f}) ));
-    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-1, 1.5, 2), Point(1, 3.5, 4), std::make_unique<Diffuse>(Color { 0.f, 0.f, 1.f, 0.f}) ));
-    m_objects.push_back(std::make_unique<TriangleCollidable>(Point(-2, -2.5, 3), Point(0, 2.5, 3), Point(2, -2.5, 3), std::make_unique<Diffuse>(Color { .3f, 0.f, .3f, 0.f}) ));
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(1, -3.5, -6), Point(3, -1.5, -4), std::make_unique<Diffuse>(Color { 1.f, 0.f, 0.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-3, -3.5, -6), Point(-1, -1.5, -4), std::make_unique<Diffuse>(Color { 0.f, 1.f, 0.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<BoxCollidable>(Point(-1, 1.5, -6), Point(1, 3.5, -4), std::make_unique<Diffuse>(Color { 0.f, 0.f, 1.f, 0.f}) ));
+    m_objects.push_back(std::make_unique<TriangleCollidable>(Point(-2, -2.5, -5), Point(2, -2.5, -5), Point(0, 2.5, -5), std::make_unique<Diffuse>(Color { .3f, 0.f, .3f, 0.f}) ));
 }
 
 void RayTracer::render(float* pixels)

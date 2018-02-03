@@ -12,10 +12,10 @@ public:
     Ray getRay(int x, int y);
     void moveCamera(const Vector& delta);
 private:
-    int m_width;
-    int m_height;
-    Vector m_direction;
-    Point m_topLeft;
+    int m_width, m_height;
+    float m_dx, m_dy, m_ratio;
+    Vector m_lookDirection, m_up, m_left;
+    Point m_origin;
 };
 
 } // KGVR

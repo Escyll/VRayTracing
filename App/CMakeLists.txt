@@ -33,3 +33,9 @@ target_link_libraries(${PROJECT_NAME}
     glew32s.lib
     opengl32.lib
     )
+
+if(MSVC)
+    if(CMAKE_BUILD_TYPE MATCHES Debug OR CMAKE_BUILD_TYPE MATCHES RelWithDebInfo)
+        set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "/ignore:4099")
+    endif()
+endif()

@@ -14,13 +14,14 @@ bool BoxCollidable::hits(const Ray& ray, float& tresult) const
     auto& min = m_box.getStart();
     auto& max = m_box.getEnd();
     float dirx = ray.getDirection().getX();
-    if (std::abs(dirx) < 0.00000001 ) dirx = 0.0000001;
+    const float epsilon = 0.00000001f;
+    if (std::abs(dirx) < epsilon ) dirx = epsilon;
 
     float diry = ray.getDirection().getY();
-    if (std::abs(diry) < 0.00000001 ) diry = 0.0000001;
+    if (std::abs(diry) < epsilon ) diry = epsilon;
 
     float dirz = ray.getDirection().getZ();
-    if (std::abs(dirz) < 0.00000001 ) dirz = 0.0000001;
+    if (std::abs(dirz) < epsilon ) dirz = epsilon;
 
     float tmin = (min.getX() - ray.getOrigin().getX()) / dirx;
     float tmax = (max.getX() - ray.getOrigin().getX()) / dirx;

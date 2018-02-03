@@ -2,6 +2,7 @@
 
 #include "Vector.h"
 #include "Point.h"
+#include "Quaternion.h"
 
 namespace KGVR {
 
@@ -108,6 +109,14 @@ float Vector::length() const
 float Vector::lengthSquared() const
 {
     return m_x * m_x + m_y * m_y + m_z * m_z;
+}
+
+Vector Vector::rotate(const Quaternion& q) const
+{
+    Vector u(q.x, q.y, q.z);
+    const Vector& v = *this;
+    auto s = q.w;
+    return 2.f * u.dot(v) * u + (s*s - u.dot(u)) * v + 2.f * s * u.cross(v);
 }
 
 float Vector::getX() const
