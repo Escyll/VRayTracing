@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Box.h"
+#include "Point.h"
 
 namespace KGVR {
 

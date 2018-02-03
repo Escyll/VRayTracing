@@ -22,6 +22,10 @@ set(SOURCES
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+add_dependencies(${PROJECT_NAME}
+    GlWindowRenderer
+    RayTracer)
+
 target_link_libraries(${PROJECT_NAME}
     CollisionDetection
     Geometry

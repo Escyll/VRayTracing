@@ -1,9 +1,8 @@
 #ifndef BOX_H
 #define BOX_H
 
+#include "Vector.h"
 #include "Point.h"
-
-#include <Vector.h>
 
 namespace KGVR {
 
