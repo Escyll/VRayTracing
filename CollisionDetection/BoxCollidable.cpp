@@ -13,24 +13,23 @@ bool BoxCollidable::hits(const Ray& ray, float& tresult) const
 {
     auto& min = m_box.getStart();
     auto& max = m_box.getEnd();
-    float dirx = ray.getDirection().getX();
-    const float epsilon = 0.00000001f;
-    if (std::abs(dirx) < epsilon ) dirx = epsilon;
+    auto& invDir = ray.getInverseDirection();
+    float invDirX = invDir.getX();
+    float invDirY = invDir.getY();
+    float invDirZ = invDir.getZ();
+    auto& orig = ray.getOrigin();
+    float origX = orig.getX();
+    float origY = orig.getY();
+    float origZ = orig.getZ();
 
-    float diry = ray.getDirection().getY();
-    if (std::abs(diry) < epsilon ) diry = epsilon;
-
-    float dirz = ray.getDirection().getZ();
-    if (std::abs(dirz) < epsilon ) dirz = epsilon;
-
-    float tmin = (min.getX() - ray.getOrigin().getX()) / dirx;
-    float tmax = (max.getX() - ray.getOrigin().getX()) / dirx;
+    float tmin = (min.getX() - origX) * invDirX;
+    float tmax = (max.getX() - origX) * invDirX;
 
     if (tmin > tmax)
         std::swap(tmin, tmax);
 
-    float tymin = (min.getY() - ray.getOrigin().getY()) / diry;
-    float tymax = (max.getY() - ray.getOrigin().getY()) / diry;
+    float tymin = (min.getY() - origY) * invDirY;
+    float tymax = (max.getY() - origY) * invDirY;
 
     if (tymin > tymax)
         std::swap(tymin, tymax);
@@ -44,8 +43,8 @@ bool BoxCollidable::hits(const Ray& ray, float& tresult) const
     if (tymax < tmax)
         tmax = tymax;
 
-    float tzmin = (min.getZ() - ray.getOrigin().getZ()) / dirz;
-    float tzmax = (max.getZ() - ray.getOrigin().getZ()) / dirz;
+    float tzmin = (min.getZ() - origZ) * invDirZ;
+    float tzmax = (max.getZ() - origZ) * invDirZ;
 
     if (tzmin > tzmax)
         std::swap(tzmin, tzmax);
@@ -56,11 +55,8 @@ bool BoxCollidable::hits(const Ray& ray, float& tresult) const
     if (tzmin > tmin)
         tmin = tzmin;
 
-    if (tzmax < tmax)
-        tmax = tzmax;
-
     tresult = tmin;
-    return true;
+    return tmin > 0;
 }
 
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
+#include <InputHandler.h>
 #include "RayTracer.h"
 #include "GLWindowRenderer.h"
 
@@ -12,19 +13,40 @@ int main(void)
     int dim = 768;
     KGVR::GLWindowRenderer glWindowRenderer(dim, dim);
 
-    float* pixelData = new float[dim*dim*4];
-    std::fill_n(pixelData, dim*dim*4, 1.f);
+    const int channels = 4;
+    const int bufferSize = dim*dim*channels;
+    float* pixelData = new float[bufferSize];
+    std::fill_n(pixelData, bufferSize, 1.f);
     KGVR::RayTracer tracer(dim, dim);
+    KGVR::InputHandler inputHandler(glWindowRenderer.getWindow());
 
     /* Loop until the user closes the window */
     while (!glWindowRenderer.shouldClose())
     {
-        double deltaX, deltaY;
-        std::tie(deltaX, deltaY) = glWindowRenderer.getMouseDelta();
-        auto turnValue = 2.0*M_PI * deltaX / 6000.0;
-        tracer.getCamera()->turn(static_cast<float>(turnValue));
-        auto pitchValue = 2.0*M_PI * deltaY / 6000.0;
-        tracer.getCamera()->pitch(static_cast<float>(pitchValue));
+        // TODO => Timings, don't base movements on framerate
+        glWindowRenderer.pollEvents();
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::LeftShift, KGVR::InputHandler::KeyAction::Pressed))
+        {
+            float turnDelta, pitchDelta;
+            std::tie(turnDelta, pitchDelta) = inputHandler.getMouseDelta();
+            tracer.getCamera()->turn(turnDelta);
+            tracer.getCamera()->pitch(pitchDelta);
+        }
+        const float movementSpeed = 0.033f;
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::W, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->moveForward(movementSpeed);
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::S, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->moveBackward(movementSpeed);
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::A, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->strafeLeft(movementSpeed);
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::D, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->strafeRight(movementSpeed);
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::R, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.restartSampling();
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::Spacebar, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->moveUp(movementSpeed);
+        if (inputHandler.getKeyAction(KGVR::InputHandler::Key::LeftControl, KGVR::InputHandler::KeyAction::Pressed))
+            tracer.getCamera()->moveDown(movementSpeed);
         tracer.render(pixelData);
         glWindowRenderer.render(pixelData);
     }

@@ -8,8 +8,8 @@
 namespace KGVR {
 
 GLWindowRenderer::GLWindowRenderer(int width, int height)
-    : m_width(width)
-    , m_height(height)
+    : m_windowWidth(width)
+    , m_windowHeight(height)
     , m_window(nullptr)
 {
     std::cout << "Initializing OpenGL stuff and window." << std::endl;
@@ -21,7 +21,7 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    m_window = glfwCreateWindow(m_width, m_height, "VRayTracing", NULL, NULL);
+    m_window = glfwCreateWindow(m_windowWidth, m_windowHeight, "VRayTracing", NULL, NULL);
     if (!m_window)
     {
         glfwTerminate();
@@ -29,7 +29,10 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
     }
 
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    glfwGetCursorPos(m_window, &xpos, &ypos);
+    glfwGetCursorPos(m_window, &m_mouseX, &m_mouseY);
+    m_monitorWidth = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
+    m_monitorHeight = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
+
     /* Make the window's context current */
     glfwMakeContextCurrent(m_window);
 
@@ -130,17 +133,18 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
     glActiveTexture(GL_TEXTURE0);
 }
 
-void GLWindowRenderer::render(float* pixels)
+void GLWindowRenderer::pollEvents() const
 {
     glfwPollEvents();
-    glClearColor(1,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
+}
 
+void GLWindowRenderer::render(float* pixels)
+{
     glTexImage2D(GL_TEXTURE_2D,
                  0,
                  GL_RGBA8,
-                 m_width,
-                 m_height,
+                 m_windowWidth,
+                 m_windowHeight,
                  0,
                  GL_BGRA,
                  GL_FLOAT,
@@ -156,10 +160,15 @@ std::tuple<double, double> GLWindowRenderer::getMouseDelta()
     double currentXpos;
     double currentYpos;
     glfwGetCursorPos(m_window, &currentXpos, &currentYpos);
-    auto result = std::tuple<double, double>(currentXpos - xpos, currentYpos - ypos);
-    xpos = currentXpos;
-    ypos = currentYpos;
+    auto result = std::tuple<double, double>((currentXpos - m_mouseX) / m_monitorWidth, (currentYpos - m_mouseY) / m_monitorWidth);
+    m_mouseX = currentXpos;
+    m_mouseY = currentYpos;
     return result;
+}
+
+GLFWwindow* GLWindowRenderer::getWindow() const
+{
+    return m_window;
 }
 
 bool GLWindowRenderer::shouldClose()

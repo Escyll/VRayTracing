@@ -7,10 +7,12 @@ include_directories(
 
 set(HEADERS
     GLWindowRenderer.h
+    InputHandler.h
     )
 
 set(SOURCES
     GLWindowRenderer.cpp
+    InputHandler.cpp
     )
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})

@@ -1,6 +1,7 @@
 project (Materials)
 
 include_directories(
+    ${Math_SOURCE_DIR}
     )
 
 set(HEADERS

@@ -21,6 +21,7 @@ public:
 
     Vector& operator*=(float rhs);
     friend Vector operator*(float lhs, const Vector& rhs);
+	friend Vector operator*(float lhs, const Vector& rhs);
     Vector operator/(float rhs) const;
     Vector& operator/=(float rhs);
 

@@ -8,16 +8,12 @@ namespace KGVR {
 Camera::Camera(int width, int height)
     : m_width(width)
     , m_height(height)
-    , m_dx(1.f / width)
-    , m_dy(1.f / height)
     , m_ratio(static_cast<float>(m_width) / m_height)
     , m_fov(60)
-    , m_lookDirection(0, 0, -1)
-    , m_up(0, 1, 0)
-    , m_left(Vector::normalize(m_up.cross(m_lookDirection)))
     , m_orientation(0, Vector(0, 0, -1))
-    , m_position(0, 0, 0)
+    , m_position(0, 0, 4)
 {
+    m_pixelCoords.reserve(m_width*m_height);
 }
 
 float toRadians(float degree)
@@ -25,7 +21,7 @@ float toRadians(float degree)
     return static_cast<float>(M_PI) * degree / 180.f;
 }
 
-Ray Camera::getRay(int x, int y)
+void Camera::computeRays()
 {
     auto viewPortWidth =  2.f * std::tan(0.5f * toRadians(m_fov));
     auto viewPortHeight = viewPortWidth / m_ratio;
@@ -38,9 +34,20 @@ Ray Camera::getRay(int x, int y)
     auto leftToRight = viewPortTopRight - viewPortTopLeft;
     auto topToBottom = viewPortBottomLeft - viewPortTopLeft;
     auto topLeftPixel = viewPortTopLeft + (leftToRight / (viewPortWidth*2*m_width)) + (topToBottom / (viewPortHeight*2*m_height));
-    auto temp = (static_cast<float>(m_height - y - 1) / m_height) * topToBottom;
-    Point pixelCoord = topLeftPixel + ((static_cast<float>(x) / m_width) * leftToRight) + temp;
-    return Ray(m_position, Vector::normalize(pixelCoord - m_position));
+    for (int y = 0; y < m_height; y++)
+    {
+        int offset = y*m_width;
+        for (int x = 0; x < m_width; x++)
+        {
+            m_pixelCoords[offset + x] = topLeftPixel + ((static_cast<float>(x) / m_width) * leftToRight)
+                                                     + (static_cast<float>(m_height - y - 1) / m_height) * topToBottom;
+        }
+    }
+}
+
+Ray Camera::getRay(int x, int y)
+{
+    return Ray(m_position, m_pixelCoords[y*m_width + x] - m_position);
 }
 
 void Camera::moveForward(float distance)
@@ -48,9 +55,19 @@ void Camera::moveForward(float distance)
     m_position += getForward() * distance;
 }
 
-void Camera::moveBackwards(float distance)
+void Camera::moveBackward(float distance)
 {
     moveForward(-distance);
+}
+
+void Camera::moveUp(float distance)
+{
+    m_position += Vector(0, 1, 0) * distance;
+}
+
+void Camera::moveDown(float distance)
+{
+    moveUp(-distance);
 }
 
 void Camera::strafeLeft(float distance)
@@ -60,7 +77,7 @@ void Camera::strafeLeft(float distance)
 
 void Camera::strafeRight(float distance)
 {
-    strafeLeft(distance);
+    strafeLeft(-distance);
 }
 
 void Camera::pitch(float radians)
