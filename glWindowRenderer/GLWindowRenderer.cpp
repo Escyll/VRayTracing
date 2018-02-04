@@ -28,6 +28,8 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
         throw std::exception("Could not create window. Probably too old OpenGL version.");
     }
 
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwGetCursorPos(m_window, &xpos, &ypos);
     /* Make the window's context current */
     glfwMakeContextCurrent(m_window);
 
@@ -147,6 +149,17 @@ void GLWindowRenderer::render(float* pixels)
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
     glfwSwapBuffers(m_window);
+}
+
+std::tuple<double, double> GLWindowRenderer::getMouseDelta()
+{
+    double currentXpos;
+    double currentYpos;
+    glfwGetCursorPos(m_window, &currentXpos, &currentYpos);
+    auto result = std::tuple<double, double>(currentXpos - xpos, currentYpos - ypos);
+    xpos = currentXpos;
+    ypos = currentYpos;
+    return result;
 }
 
 bool GLWindowRenderer::shouldClose()

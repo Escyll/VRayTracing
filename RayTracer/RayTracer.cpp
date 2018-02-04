@@ -59,4 +59,9 @@ void RayTracer::render(float* pixels)
 
 }
 
+Camera* RayTracer::getCamera()
+{
+    return &m_camera;
+}
+
 } // KGVR

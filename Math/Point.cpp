@@ -17,14 +17,27 @@ Point::Point(float x, float y, float z)
 {
 }
 
-Point Point::operator+(const KGVR::Vector& rhs)
+Point Point::operator+(const Vector& rhs)
 {
     return Point(m_x + rhs.m_x, m_y + rhs.m_y, m_z + rhs.m_z);
+}
+
+Point Point::operator-(const Vector& rhs)
+{
+    return *this + -rhs;
 }
 
 Vector Point::operator-(const Point& rhs)
 {
     return Vector(m_x - rhs.m_x, m_y - rhs.m_y, m_z - rhs.m_z);
+}
+
+Point& Point::operator+=(const Vector& rhs)
+{
+    m_x += rhs.m_x;
+    m_y += rhs.m_y;
+    m_z += rhs.m_z;
+    return *this;
 }
 
 Vector operator-(const Point& lhs, const Point& rhs)

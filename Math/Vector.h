@@ -30,8 +30,6 @@ public:
     float length() const;
     float lengthSquared() const;
 
-    Vector rotate(const Quaternion& q) const;
-
     friend class Point;
     float getX() const;
     float getY() const;

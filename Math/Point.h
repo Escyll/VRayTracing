@@ -11,8 +11,10 @@ public:
     Point(float x, float y, float z);
 
     Point operator+(const Vector& rhs);
+    Point operator-(const Vector& rhs);
     Vector operator-(const Point& rhs);
     friend Vector operator-(const Point& lhs, const Point& rhs);
+    Point& operator+=(const Vector& rhs);
 
     friend class Vector;
     float getX() const;

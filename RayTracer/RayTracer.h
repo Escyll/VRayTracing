@@ -17,6 +17,7 @@ class RayTracer
 public:
     RayTracer(int width, int height);
     void render(float* pixels);
+    Camera* getCamera();
 private:
     int m_width;
     int m_height;

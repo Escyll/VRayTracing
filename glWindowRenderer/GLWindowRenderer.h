@@ -2,6 +2,7 @@
 #define GLWINDOWRENDERER_H
 
 #include <GLFW/glfw3.h>
+#include <tuple>
 
 namespace KGVR {
 
@@ -13,6 +14,7 @@ public:
     bool shouldClose();
     void terminate();
     void render(float* pixels);
+    std::tuple<double, double> getMouseDelta();
 
 private:
     int m_width;
@@ -22,6 +24,7 @@ private:
     GLuint m_vao;
     GLuint m_vbo;
     GLuint m_shaderProgram;
+    double xpos, ypos;
 };
 
 } // KGVR
