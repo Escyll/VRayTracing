@@ -14,18 +14,18 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
 {
     std::cout << "Initializing OpenGL stuff and window." << std::endl;
     if (!glfwInit())
-        throw std::exception("glfwInit failed, aborting.");
+        throw std::logic_error("glfwInit failed, aborting.");
 
     /* Create a windowed mode window and its OpenGL context */
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     m_window = glfwCreateWindow(m_windowWidth, m_windowHeight, "VRayTracing", NULL, NULL);
     if (!m_window)
     {
         glfwTerminate();
-        throw std::exception("Could not create window. Probably too old OpenGL version.");
+        throw std::logic_error("Could not create window. Probably too old OpenGL version.");
     }
 
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -39,7 +39,7 @@ GLWindowRenderer::GLWindowRenderer(int width, int height)
     glewExperimental=GL_TRUE;
     GLenum err=glewInit();
     if(err!=GLEW_OK)
-        throw std::exception("glewInit failed, aborting.");
+        throw std::logic_error("glewInit failed, aborting.");
     const GLubyte* renderer = glGetString(GL_RENDERER); // get renderer string
     const GLubyte* version = glGetString(GL_VERSION); // version as a string
     std::cout << "Renderer: " << renderer << std::endl;

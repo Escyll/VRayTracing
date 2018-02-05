@@ -11,13 +11,13 @@ BoxCollidable::BoxCollidable(const Point& start, const Point& end, std::unique_p
 
 bool BoxCollidable::hits(const Ray& ray, float& tresult) const
 {
-    auto& min = m_box.getStart();
-    auto& max = m_box.getEnd();
-    auto& invDir = ray.getInverseDirection();
+    auto min = m_box.getStart();
+    auto max = m_box.getEnd();
+    auto invDir = ray.getInverseDirection();
     float invDirX = invDir.getX();
     float invDirY = invDir.getY();
     float invDirZ = invDir.getZ();
-    auto& orig = ray.getOrigin();
+    auto orig = ray.getOrigin();
     float origX = orig.getX();
     float origY = orig.getY();
     float origZ = orig.getZ();

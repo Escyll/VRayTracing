@@ -1,6 +1,7 @@
 #include <Diffuse.h>
 #include <TriangleCollidable.h>
 #include <algorithm>
+#include <memory>
 
 #include "RayTracer.h"
 #include "BoxCollidable.h"

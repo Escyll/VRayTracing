@@ -19,6 +19,13 @@ set(SOURCES
 
 add_library(${PROJECT_NAME} STATIC ${HEADERS} ${SOURCES})
 
+target_link_libraries(${PROJECT_NAME}
+    CollisionDetection
+    Math
+    Materials
+    )
+
 add_dependencies(${PROJECT_NAME}
     CollisionDetection
-    Materials)
+    Materials
+    Math)

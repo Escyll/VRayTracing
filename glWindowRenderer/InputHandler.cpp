@@ -88,7 +88,7 @@ bool InputHandler::getKeyAction(InputHandler::Key key, InputHandler::KeyAction a
     case KeyAction::Repeated:
         return m_repeatingKeys.at(key);
     default:
-        throw std::exception("Not a valid action");
+        throw std::logic_error("Not a valid action");
     }
 }
 
@@ -128,7 +128,7 @@ InputHandler::KeyAction InputHandler::mapGLFWToAction(int action)
     case GLFW_REPEAT:
         return KeyAction::Repeated;
     default:
-        throw std::exception("Not a valid action of GLFW");
+        throw std::logic_error("Not a valid action of GLFW");
     }
 }
 

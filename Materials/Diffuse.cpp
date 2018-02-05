@@ -22,10 +22,10 @@ Vector Diffuse::getNextDirection(const Vector& normal, std::function<float()>& r
 {
     auto u1 = rng();
     auto u2 = rng();
-    float latitude = std::acosf(2*u1 - 1) - (static_cast<float>(M_PI) / 2.f);
+    float latitude = std::acos(2*u1 - 1) - (static_cast<float>(M_PI) / 2.f);
     float longitude = 2.f*static_cast<float>(M_PI)*u2;
-    auto cosLatitude = std::cosf(latitude);
-    Vector randomVec(cosLatitude*std::cosf(longitude), cosLatitude*std::sinf(longitude), std::sinf(latitude));
+    auto cosLatitude = std::cos(latitude);
+    Vector randomVec(cosLatitude*std::cos(longitude), cosLatitude*std::sin(longitude), std::sin(latitude));
     return randomVec.dot(normal) > 0 ? randomVec : -randomVec;
 }
 

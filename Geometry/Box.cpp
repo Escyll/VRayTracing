@@ -1,5 +1,6 @@
 #include <cmath>
 #include <memory>
+#include <exception>
 
 #include "Box.h"
 #include "Point.h"
@@ -41,7 +42,7 @@ Vector Box::getNormal(const Point& p) const
         return Vector(0, 0, -1);
     else if (closeEnough(p.getZ(), m_end.getZ()))
         return Vector(0, 0, 1);
-    throw std::exception("Kan niet");
+    throw std::logic_error("Kan niet");
 }
 
 } // KGVR
