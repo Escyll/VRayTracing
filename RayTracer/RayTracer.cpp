@@ -26,10 +26,10 @@ RayTracer::RayTracer(int width, int height)
 
 void RayTracer::render(float* pixels)
 {
-    m_camera.computeRays();
     for (int y = 0; y < m_height; y++)
     {
         auto offsetHeight = 4*m_height*y;
+        #pragma omp parallel for
         for (int x = 0; x < m_width; x++)
         {
             auto totalOffset = offsetHeight + 4*x;
@@ -77,6 +77,7 @@ Color RayTracer::traceRay(const Ray& ray, int depth)
 void RayTracer::restartSampling()
 {
     m_sampleCount = 0;
+    m_camera.computeRays();
 }
 
 Camera* RayTracer::getCamera()

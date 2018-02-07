@@ -12,8 +12,8 @@ Camera::Camera(int width, int height)
     , m_fov(60)
     , m_orientation(0, Vector(0, 0, -1))
     , m_position(0, 0, 4)
+    , m_pixelCoords(m_width*m_height)
 {
-    m_pixelCoords.reserve(m_width*m_height);
 }
 
 float toRadians(float degree)

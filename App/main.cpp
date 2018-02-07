@@ -18,6 +18,7 @@ int main(void)
     float* pixelData = new float[bufferSize];
     std::fill_n(pixelData, bufferSize, 1.f);
     KGVR::RayTracer tracer(dim, dim);
+    tracer.restartSampling();
     KGVR::InputHandler inputHandler(glWindowRenderer.getWindow());
 
     /* Loop until the user closes the window */

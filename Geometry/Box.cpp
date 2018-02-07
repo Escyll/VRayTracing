@@ -1,6 +1,6 @@
 #include <cmath>
 #include <memory>
-#include <exception>
+#include <stdexcept>
 
 #include "Box.h"
 #include "Point.h"
