@@ -26,10 +26,10 @@ RayTracer::RayTracer(int width, int height)
 
 void RayTracer::render(float* pixels)
 {
+    #pragma omp parallel for
     for (int y = 0; y < m_height; y++)
     {
         auto offsetHeight = 4*m_height*y;
-        #pragma omp parallel for
         for (int x = 0; x < m_width; x++)
         {
             auto totalOffset = offsetHeight + 4*x;
